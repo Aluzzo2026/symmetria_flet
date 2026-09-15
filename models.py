@@ -1,6 +1,7 @@
 from datetime import datetime
 from sqlalchemy import create_engine, Column, Integer, String, Date, Text, ForeignKey
-from sqlalchemy.orm import declarative_base, relationship, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship, sessionmaker
 from werkzeug.security import generate_password_hash, check_password_hash
 
 Base = declarative_base()
