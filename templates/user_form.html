@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+    <div class="col-md-6">
+        <form method="POST" class="bg-light p-4 rounded shadow-sm">
+            <h5 class="mb-4">{{ 'Edit User' if user_edit else 'Tambah User Baru' }}</h5>
+            
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" name="username" class="form-control" value="{{ user_edit.username if user_edit else '' }}" required>
+            </div>
+            
+            <div class="mb-3">
+                <label class="form-label">Role / Hak Akses</label>
+                <select name="role" class="form-select" required>
+                    <option value="terapis" {% if user_edit and user_edit.role == 'terapis' %}selected{% endif %}>Terapis (Hanya kelola pasien)</option>
+                    <option value="admin" {% if user_edit and user_edit.role == 'admin' %}selected{% endif %}>Admin (Akses penuh & manajemen user)</option>
+                </select>
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label">Password {% if user_edit %}<small class="text-muted">(Kosongkan jika tidak ingin mengubah password)</small>{% endif %}</label>
+                <input type="password" name="password" class="form-control" {% if not user_edit %}required{% endif %}>
+            </div>
+
+            <div class="text-end">
+                <a href="{{ url_for('user_list') }}" class="btn btn-secondary me-2">Batal</a>
+                <button type="submit" class="btn btn-teal px-4">Simpan</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

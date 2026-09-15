@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="d-flex align-items-center">
+        <!-- PERBAIKAN: Link diarahkan ke hypno_form -->
+        <a href="{{ url_for('hypno_form') }}" class="btn btn-teal me-3 px-4">New</a>
+        <h4 class="mb-0">Hypnotherapi</h4>
+    </div>
+    <input type="text" id="searchInput" onkeyup="cariPasien()" class="form-control w-50" placeholder="Cari nama pasien...">
+</div>
+
+<table class="table table-hover" id="pasienTable">
+    <thead>
+        <tr>
+            <th width="5%"></th>
+            <th width="5%">No</th>
+            <th>Nama</th>
+            <th>Domisili</th>
+            <th>Nama Ibu Kandung</th>
+            <th>Usia</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for p in data_pasien %}
+        <!-- PERBAIKAN: Link baris tabel diarahkan ke hypno_form -->
+        <tr style="cursor: pointer;" onclick="if(event.target.type !== 'checkbox' && event.target.tagName !== 'A') window.location='{{ url_for('hypno_form', id=p.id) }}'">
+            <td><input type="checkbox" onchange="toggleAksi(this, {{ p.id }})"></td>
+            <td>{{ loop.index }}</td>
+            <td>{{ p.nama }}</td>
+            <td>{{ p.domisili }}</td>
+            <td>{{ p.nama_ibu }}</td>
+            <td id="usia_list_{{ p.id }}" data-dob="{{ p.tanggal_lahir }}">Menghitung...</td>
+            <td>
+                <div id="aksi_{{ p.id }}" class="d-none">
+                    <!-- PERBAIKAN: Link Edit dan Hapus diarahkan ke rute hypno -->
+                    <a href="{{ url_for('hypno_form', id=p.id) }}" class="btn btn-sm btn-outline-teal">Edit</a>
+                    <a href="{{ url_for('hypno_delete', id=p.id) }}" class="btn btn-sm btn-outline-danger" onclick="return confirm('Yakin hapus data?')">Hapus</a>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    document.querySelectorAll('[id^="usia_list_"]').forEach(el => {
+        let dob = new Date(el.getAttribute('data-dob'));
+        let age = new Date().getFullYear() - dob.getFullYear();
+        el.innerText = age;
+    });
+
+    function toggleAksi(checkbox, id) {
+        let aksiDiv = document.getElementById('aksi_' + id);
+        if (checkbox.checked) {
+            aksiDiv.classList.remove('d-none');
+        } else {
+            aksiDiv.classList.add('d-none');
+        }
+    }
+</script>
+{% endblock %}

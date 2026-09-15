@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="p-4 mb-4 rounded-3 shadow-sm bg-teal text-white">
+    <div class="container-fluid py-2">
+        <h2 class="fw-bold">Selamat Datang, {{ current_user.username }}!</h2>
+        <p class="fs-5">Ini adalah ringkasan data pasien Klinik Symmetria Good hari ini.</p>
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm text-center p-4">
+            <h5 class="text-muted">Total Pasien Prana</h5>
+            <h1 class="display-4 fw-bold text-teal">{{ total_prana }}</h1>
+            <a href="{{ url_for('prana_list') }}" class="btn btn-outline-teal mt-3">Lihat Data Prana</a>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm text-center p-4">
+            <h5 class="text-muted">Total Pasien Hypnotherapi</h5>
+            <h1 class="display-4 fw-bold text-teal">{{ total_hypno }}</h1>
+            <a href="{{ url_for('hypno_list') }}" class="btn btn-outline-teal mt-3">Lihat Data Hypnotherapi</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
